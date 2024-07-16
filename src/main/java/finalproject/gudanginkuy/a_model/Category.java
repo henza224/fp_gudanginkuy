@@ -11,18 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "categories")
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String username;
-
-    private String password;
-
-    private Integer NoTelephone;
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private String category;
 }
