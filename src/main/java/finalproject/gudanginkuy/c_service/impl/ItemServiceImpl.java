@@ -51,10 +51,33 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item updateQuantity(Integer id, Integer quantity) {
-        Item item = this.getOne(id);
-        item.setQuantity(quantity);
-        return itemRepository.save(item);
+    public Item update(Integer id, ItemDTO request) {
+        Item itemToUpdate = itemRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (request.getVendor_id() != null) {
+            Vendor vendor = vendorService.getOne(request.getVendor_id());
+            itemToUpdate.setVendor(vendor);
+        }
+
+        if (request.getCategory_id() != null) {
+            Category category = categoryService.getOne(request.getCategory_id());
+            itemToUpdate.setCategory(category);
+        }
+
+        if (request.getBarcode() != null) {
+            itemToUpdate.setBarcode(request.getBarcode());
+        }
+
+        if (request.getName() != null) {
+            itemToUpdate.setName(request.getName());
+        }
+
+        if (request.getQuantity() != null) {
+            itemToUpdate.setQuantity(request.getQuantity());
+        }
+
+        return itemRepository.save(itemToUpdate);
     }
 
     @Override

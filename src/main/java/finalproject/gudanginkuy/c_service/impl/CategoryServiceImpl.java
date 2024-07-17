@@ -1,6 +1,7 @@
 package finalproject.gudanginkuy.c_service.impl;
 
 import finalproject.gudanginkuy.a_model.Category;
+import finalproject.gudanginkuy.a_model.User;
 import finalproject.gudanginkuy.b_repository.CategoryRepository;
 import finalproject.gudanginkuy.c_service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category create(Category request) {
         return categoryRepository.save(request);
+    }
+
+    @Override
+    public Category update(Integer id, Category request) {
+        Category category = this.getOne(id);
+        category.setName(request.getName());
+        categoryRepository.save(category);
+        return category;
+
     }
 
     @Override

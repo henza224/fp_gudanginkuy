@@ -57,9 +57,10 @@ public class VendorController {
         );
     }
     @DeleteMapping("/{id}")
-    public void delete(
+    public ResponseEntity<?> delete(
             @PathVariable Integer id
     ) {
         vendorService.delete(id);
+        return new ResponseEntity<>("Delete sukses", HttpStatus.OK);
     }
 }

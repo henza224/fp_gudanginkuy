@@ -8,5 +8,6 @@ public interface CategoryService {
     Page<Category> getAll(Pageable pageable);
     Category getOne(Integer id);
     Category create(Category request);
+    Category update(Integer id, Category request);
     void delete (Integer id);
 }

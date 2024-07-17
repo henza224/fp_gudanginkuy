@@ -9,6 +9,6 @@ public interface ItemService {
     Page<Item> getAll(String name, Integer quantity, Pageable pageable);
     Item getOne(Integer id);
     Item create(ItemDTO Request);
-    Item updateQuantity(Integer id, Integer quantity);
+    Item update(Integer id, ItemDTO request);
     void delete(Integer id);
 }

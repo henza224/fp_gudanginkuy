@@ -42,6 +42,7 @@ public class VendorServiceImpl implements VendorService {
             update.setAddress(request.getAddress());
         }
         if (request.getNoTelephone() != null) {
+            System.out.println("Request NoTelephone: " + request.getNoTelephone()); // Tambahkan logging ini
             update.setNoTelephone(request.getNoTelephone());
         }
         return vendorRepository.save(update);

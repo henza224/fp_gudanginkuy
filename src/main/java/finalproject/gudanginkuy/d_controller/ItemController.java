@@ -1,6 +1,7 @@
 package finalproject.gudanginkuy.d_controller;
 
 import finalproject.gudanginkuy.a_model.Item;
+import finalproject.gudanginkuy.a_model.User;
 import finalproject.gudanginkuy.c_service.ItemService;
 import finalproject.gudanginkuy.utils.dto.ItemDTO;
 import finalproject.gudanginkuy.utils.response.PageWrapper;
@@ -50,11 +51,21 @@ public class ItemController {
                 HttpStatus.FOUND
         );
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<?>  update(@PathVariable Integer id, @RequestBody ItemDTO request){
+        return Res.renderJson(
+                itemService.update(id, request),
+                "Update Sucsess",
+                HttpStatus.OK
+        );
+    }
+
     @DeleteMapping("/{id}")
-    public void delete(
+    public ResponseEntity<?> delete(
             @PathVariable Integer id
     ) {
         itemService.delete(id);
+        return new ResponseEntity<>("Delete sukses", HttpStatus.OK);
     }
 
 
