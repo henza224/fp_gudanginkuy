@@ -11,4 +11,6 @@ public interface ItemService {
     Item create(ItemDTO Request);
     Item update(Integer id, ItemDTO request);
     void delete(Integer id);
+
+    byte[] generateBarcode(Integer id) throws Exception;
 }

@@ -7,6 +7,7 @@ import finalproject.gudanginkuy.b_repository.ItemRepository;
 import finalproject.gudanginkuy.c_service.CategoryService;
 import finalproject.gudanginkuy.c_service.ItemService;
 import finalproject.gudanginkuy.c_service.VendorService;
+import finalproject.gudanginkuy.utils.BarcodeGenerator;
 import finalproject.gudanginkuy.utils.dto.ItemDTO;
 import finalproject.gudanginkuy.utils.specification.ItemSpecification;
 import lombok.RequiredArgsConstructor;
@@ -83,5 +84,12 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void delete(Integer id) {
         itemRepository.deleteById(id);
+    }
+
+    @Override
+    public byte[] generateBarcode(Integer id) throws Exception {
+        Item item = getOne(id);
+        String barcodeText = item.getBarcode().toString();
+        return BarcodeGenerator.generateBarcode(barcodeText);
     }
 }
