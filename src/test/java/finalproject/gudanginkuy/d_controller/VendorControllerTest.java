@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import finalproject.gudanginkuy.a_model.Vendor;
 import finalproject.gudanginkuy.b_repository.VendorRepository;
+import finalproject.gudanginkuy.c_service.VendorService;
 import finalproject.gudanginkuy.utils.response.WebResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ class VendorControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private VendorRepository vendorRepository;
+    private VendorService vendorService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -36,7 +37,7 @@ class VendorControllerTest {
         vendor.setVendorName("Bakti Karya");
         vendor.setAddress("Jl. Abdul Wahab RT.03 RW.03 Sawangan, Depok");
         vendor.setNoTelephone(123456);
-        vendorRepository.save(vendor);
+        vendorService.create(vendor);
 
         mockMvc.perform(
                 post("/vendor")
@@ -58,13 +59,7 @@ class VendorControllerTest {
     }
 
     @Test
-    void testGetVendor() throws Exception {
-        Vendor vendor = new Vendor();
-        vendor.setVendorName("Bakti Karya");
-        vendor.setAddress("Jl. Abdul Wahab RT.03 RW.03 Sawangan, Depok");
-        vendor.setNoTelephone(123456);
-        vendorRepository.save(vendor);
-
+    void testGetAllVendor() throws Exception {
         mockMvc.perform(
                 get("/vendor")
                         .accept(MediaType.APPLICATION_JSON)
@@ -74,14 +69,16 @@ class VendorControllerTest {
             WebResponse<Vendor> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {});
 
             assertEquals("Found", response.getStatus());
+            assertEquals("FOUND", response.getMessage());
+            assertNotNull(response.getData());
         });
     }
 
     @Test
     void testGetVendorById() throws Exception {
         mockMvc.perform(
-                get("/vendor/2")
-                .accept(MediaType.APPLICATION_JSON)
+                get("/vendor/1")
+                        .accept(MediaType.APPLICATION_JSON)
         ).andExpectAll(
                 status().isFound()
         ).andDo(result -> {
@@ -89,23 +86,24 @@ class VendorControllerTest {
 
             assertEquals("Found", response.getStatus());
             assertEquals("FOUND", response.getMessage());
+            assertEquals(1, response.getData().getId());
             assertEquals("Bakti Karya", response.getData().getVendorName());
             assertEquals("Jl. Abdul Wahab RT.03 RW.03 Sawangan, Depok", response.getData().getAddress());
-            assertEquals(123456789, response.getData().getNoTelephone());
+            assertEquals(123456, response.getData().getNoTelephone());
 
         });
     }
 
     @Test
     void testUpdateVendor() throws Exception {
-        Vendor vendor = new Vendor();
+        Vendor vendor = vendorService.getOne(1);
         vendor.setVendorName("Bakti Karya");
-        vendor.setAddress("Jl. Abdul Wahab RT.03 RW.03 Sawangan, Depok");
-        vendor.setNoTelephone(1234567);
-        vendorRepository.save(vendor);
+        vendor.setAddress("Jl. Raya Keadilan No.48, RT.2/RW.1, Rangkapan Jaya Baru, Kec. Pancoran Mas, Kota Depok");
+        vendor.setNoTelephone(123456789);
+        vendorService.update(1, vendor);
 
         mockMvc.perform(
-                put("/vendor/2")
+                put("/vendor/1")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString (vendor))
@@ -116,9 +114,10 @@ class VendorControllerTest {
 
             assertEquals("OK", response.getStatus());
             assertEquals("Updated", response.getMessage());
+            assertEquals(1, response.getData().getId());
             assertEquals("Bakti Karya", response.getData().getVendorName());
-            assertEquals("Jl. Abdul Wahab RT.03 RW.03 Sawangan, Depok", response.getData().getAddress());
-            assertEquals(1234567, response.getData().getNoTelephone());
+            assertEquals("Jl. Raya Keadilan No.48, RT.2/RW.1, Rangkapan Jaya Baru, Kec. Pancoran Mas, Kota Depok", response.getData().getAddress());
+            assertEquals(123456789, response.getData().getNoTelephone());
         });
     }
 }

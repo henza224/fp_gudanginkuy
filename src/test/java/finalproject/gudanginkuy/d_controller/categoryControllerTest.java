@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import finalproject.gudanginkuy.a_model.Category;
 import finalproject.gudanginkuy.b_repository.CategoryRepository;
+import finalproject.gudanginkuy.c_service.CategoryService;
 import finalproject.gudanginkuy.utils.response.WebResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ class categoryControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -35,7 +36,7 @@ class categoryControllerTest {
     void testCreateCategory() throws Exception {
         Category category = new Category();
         category.setName("Makanan");
-        categoryRepository.save(category);
+        categoryService.create(category);
 
         mockMvc.perform(
                 post("/category")
@@ -56,10 +57,6 @@ class categoryControllerTest {
 
     @Test
     void testGetCategory() throws Exception {
-        Category category = new Category();
-        category.setName("Makanan");
-        categoryRepository.save(category);
-
         mockMvc.perform(
                 get("/category")
                         .accept(MediaType.APPLICATION_JSON)
@@ -70,15 +67,12 @@ class categoryControllerTest {
 
             assertEquals("Found", response.getStatus());
             assertEquals("FOUND", response.getMessage());
+            assertNotNull(response.getData());
         });
     }
 
     @Test
     void testGetCategoryById() throws Exception {
-        Category category = new Category();
-        category.setName("Makanan");
-        categoryRepository.save(category);
-
         mockMvc.perform(
                 get("/category/1")
                         .accept(MediaType.APPLICATION_JSON)
@@ -89,8 +83,31 @@ class categoryControllerTest {
 
             assertEquals("Found", response.getStatus());
             assertEquals("FOUND", response.getMessage());
-            assertNotNull(response.getData().getId());
+            assertEquals(1, response.getData().getId());
             assertEquals("Makanan", response.getData().getName());
+        });
+    }
+
+    @Test
+    void testUpdateCategory() throws Exception {
+        Category category = categoryService.getOne(1);
+        category.setName("Minuman");
+        categoryService.update(1, category);
+
+        mockMvc.perform(
+                get("/category/1")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(category))
+        ).andExpectAll(
+                status().isFound()
+        ).andDo(result -> {
+            WebResponse<Category> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>(){});
+
+            assertEquals("Found", response.getStatus());
+            assertEquals("FOUND", response.getMessage());
+            assertEquals(1, response.getData().getId());
+            assertEquals("Minuman", response.getData().getName());
         });
     }
 }
