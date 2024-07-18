@@ -1,5 +1,7 @@
 package finalproject.gudanginkuy.c_service.impl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import finalproject.gudanginkuy.a_model.Category;
 import finalproject.gudanginkuy.a_model.Item;
 import finalproject.gudanginkuy.a_model.Vendor;
@@ -16,7 +18,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.io.IOException;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +30,7 @@ public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
     private final VendorService vendorService;
     private final CategoryService categoryService;
+    private final Cloudinary cloudinary;
 
     @Override
     public Page<Item> getAll(String name, Integer quantity, Pageable pageable) {
@@ -91,5 +98,36 @@ public class ItemServiceImpl implements ItemService {
         Item item = getOne(id);
         String barcodeText = item.getBarcode().toString();
         return BarcodeGenerator.generateBarcode(barcodeText);
+    }
+
+    @Override
+    public Item updateItemPictureUrl(Integer id, String pictureUrl) {
+        Item item = this.getOne(id);
+        item.setPictureUrl(pictureUrl);
+        return itemRepository.save(item);
+    }
+
+    public String uploadPicture(MultipartFile picture) throws IOException {
+        Map uploadResult = cloudinary.uploader().upload(picture.getBytes(), ObjectUtils.emptyMap());
+        return (String) uploadResult.get("url");
+    }
+
+    public Item deleteOldPicture(Integer id, MultipartFile picture) throws IOException{
+        Item item = this.getOne(id);
+        if (item.getPictureUrl() != null) {
+            String publicId = extractPublicIdFromUrl(item.getPictureUrl());
+            cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+        }
+
+        Map uploadResult = cloudinary.uploader().upload(picture.getBytes(), ObjectUtils.emptyMap());
+        String newPictureUrl = (String) uploadResult.get("url");
+        item.setPictureUrl(newPictureUrl);
+        return itemRepository.save(item);
+    }
+
+    private String extractPublicIdFromUrl(String imageUrl) {
+        int startIndex = imageUrl.indexOf("/upload/") + "/upload/".length();
+        int endIndex = imageUrl.lastIndexOf(".");
+        return imageUrl.substring(startIndex, endIndex);
     }
 }

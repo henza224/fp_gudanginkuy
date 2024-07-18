@@ -26,7 +26,7 @@ public class Item {
 
     private Integer quantity;
 
-//    private Clob pictureUrl;
+    private String pictureUrl;
 
     @ManyToOne
     @JoinColumn(name = "vendor_id")
