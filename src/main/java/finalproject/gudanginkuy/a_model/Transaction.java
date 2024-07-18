@@ -6,17 +6,30 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "stocks")
-public class Stock {
+@Table(name = "Transaction")
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name_item;
-    private Integer quantity;
-}
 
+    @ManyToOne
+    private Item item;
+
+    private Integer quantity;
+
+    private LocalDateTime timestamp;
+
+    @ManyToOne
+    private User user;
+
+    @Enumerated(EnumType.STRING)
+    private TransactionType type;
+}
