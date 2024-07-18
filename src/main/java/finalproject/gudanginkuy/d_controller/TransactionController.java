@@ -7,6 +7,7 @@ import finalproject.gudanginkuy.c_service.TransactionService;
 import finalproject.gudanginkuy.utils.dto.TransactionDTO;
 import finalproject.gudanginkuy.utils.response.PageWrapper;
 import finalproject.gudanginkuy.utils.response.Res;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -22,10 +23,11 @@ public class TransactionController {
 
     @PostMapping
     public ResponseEntity<?> create(
+            HttpServletRequest token,
             @RequestParam TransactionType type,
             @RequestBody TransactionDTO request){
         return Res.renderJson(
-                transactionService.create(request, type),
+                transactionService.create(request, type, token),
                 "Created",
                 HttpStatus.CREATED
         );
