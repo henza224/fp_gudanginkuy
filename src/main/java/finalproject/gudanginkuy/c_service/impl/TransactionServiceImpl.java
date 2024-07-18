@@ -8,6 +8,7 @@ import finalproject.gudanginkuy.b_repository.TransactionRepository;
 import finalproject.gudanginkuy.b_repository.UserRepository;
 import finalproject.gudanginkuy.c_service.ItemService;
 import finalproject.gudanginkuy.c_service.TransactionService;
+import finalproject.gudanginkuy.utils.dto.ItemDTO;
 import finalproject.gudanginkuy.utils.dto.TransactionDTO;
 import finalproject.gudanginkuy.utils.security.JwtAuthenticationFilter;
 import finalproject.gudanginkuy.utils.security.JwtTokenProvider;
@@ -51,30 +52,40 @@ public class TransactionServiceImpl implements TransactionService {
         creating.setItem(item);
         creating.setTimestamp(LocalDateTime.now());
         creating.setUser(user);
+        creating.setType(type);
 
         Integer itemQuantity = item.getQuantity() != null ? item.getQuantity() : 0;
+        Integer transactionQuantity = request.getQuantity();
 
         if (type == TransactionType.IN) {
-            creating.setQuantity(itemQuantity + request.getQuantity());
-            creating.setType(type);
+            item.setQuantity(itemQuantity + transactionQuantity);
         } else if (type == TransactionType.OUT) {
-            if (itemQuantity < request.getQuantity()) {
+            if (itemQuantity < transactionQuantity) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Insufficient quantity in stock");
             }
-            creating.setQuantity(itemQuantity - request.getQuantity());
-            creating.setType(type);
+            item.setQuantity(itemQuantity - transactionQuantity);
         }
 
+        creating.setQuantity(transactionQuantity);
+        itemService.update(item.getId(), convertItemToDTO(item)); // Update item quantity in the database
         return transactionRepository.save(creating);
+    }
+
+    private ItemDTO convertItemToDTO(Item item) {
+        return ItemDTO.builder()
+                .barcode(item.getBarcode())
+                .name(item.getName())
+                .quantity(item.getQuantity())
+                .vendor_id(item.getVendor().getId())
+                .category_id(item.getCategory().getId())
+                .build();
     }
 
     public User getUserfromJWT(HttpServletRequest request) {
         String jwt = authenticationFilter.getJwtFromRequest(request);
-
         String username = tokenProvider.getUsernameFromJWT(jwt);
-
         return userRepository.findByUsername(username).orElseThrow(
-                ()-> new ResponseStatusException(HttpStatus.NOT_FOUND)
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
         );
     }
 }
