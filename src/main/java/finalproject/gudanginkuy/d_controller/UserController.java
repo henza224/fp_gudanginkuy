@@ -43,19 +43,31 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getOne(@PathVariable Integer id) {
-        return userService.getOne(id);
+    public ResponseEntity<?> getOne(@PathVariable Integer id) {
+        return Res.renderJson(
+                userService.getOne(id),
+                "FOUND",
+                HttpStatus.OK
+        );
     }
 
 
     @PutMapping("/gantiusername/{id}")
-    public User updategantiusername(@PathVariable Integer id, @RequestBody User users){
-        return userService.updategantiusername(id, users);
+    public ResponseEntity<?> updategantiusername(@PathVariable Integer id, @RequestBody User users){
+        return Res.renderJson(
+                userService.updategantiusername(id, users),
+                "Success Update Username",
+                HttpStatus.OK
+        );
     }
 
-    @PutMapping("/gantipassword{id}")
-    public User updategantipassword(@PathVariable Integer id, @RequestBody User users){
-        return userService.updategantipassword(id, users);
+    @PutMapping("/gantipassword/{id}")
+    public ResponseEntity<?> updategantipassword(@PathVariable Integer id, @RequestBody User users){
+        return Res.renderJson(
+                userService.updategantipassword(id, users),
+                "Success Update Password",
+                HttpStatus.OK
+        );
     }
 
 
