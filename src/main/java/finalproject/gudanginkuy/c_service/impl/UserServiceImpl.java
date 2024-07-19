@@ -33,12 +33,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User create(User request) {
-        return userRepository.save(request);
-    }
-
-
-    @Override
     public User updategantiusername(Integer id, User request) {
         User user = this.getOne(id);
         user.setUsername(request.getUsername());

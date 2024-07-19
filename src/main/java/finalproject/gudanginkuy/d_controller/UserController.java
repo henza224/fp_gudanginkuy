@@ -18,16 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody User request){
-        return Res.renderJson(
-                userService.create(request),
-                "Created",
-                HttpStatus.CREATED
-        );
-    }
-
-
     @GetMapping
     public ResponseEntity<?> getAll(
             @RequestParam(required = false) String username,
