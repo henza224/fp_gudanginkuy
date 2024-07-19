@@ -9,14 +9,17 @@ import finalproject.gudanginkuy.utils.response.PageWrapper;
 import finalproject.gudanginkuy.utils.response.Res;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+
 @RestController
-@RequestMapping("/Transaction")
+@RequestMapping("/transaction")
 @RequiredArgsConstructor
 public class TransactionController {
     private final TransactionService transactionService;
@@ -42,10 +45,13 @@ public class TransactionController {
     }
     @GetMapping()
     public ResponseEntity<?> getAll(
+            @RequestParam (required = false) TransactionType type,
+            @RequestParam (required = false) LocalDateTime timestamp,
+            @RequestParam (required = false) Integer itemId,
             @PageableDefault Pageable pageable
     ){
-        PageWrapper<Transaction> result =
-                new PageWrapper<>(transactionService.getAll(pageable));
+        Page<Transaction> res = transactionService.getAll(type, timestamp, itemId, pageable);
+        PageWrapper<Transaction> result = new PageWrapper<>(res);
         return Res.renderJson(
                 result,
                 "FOUND",

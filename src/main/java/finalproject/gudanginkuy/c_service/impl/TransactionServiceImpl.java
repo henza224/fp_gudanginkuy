@@ -12,10 +12,12 @@ import finalproject.gudanginkuy.utils.dto.ItemDTO;
 import finalproject.gudanginkuy.utils.dto.TransactionDTO;
 import finalproject.gudanginkuy.utils.security.JwtAuthenticationFilter;
 import finalproject.gudanginkuy.utils.security.JwtTokenProvider;
+import finalproject.gudanginkuy.utils.specification.TransactionSpecification;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -30,10 +32,15 @@ public class TransactionServiceImpl implements TransactionService {
     private final JwtAuthenticationFilter authenticationFilter;
     private final JwtTokenProvider tokenProvider;
     private final UserRepository userRepository;
+    private final TransactionSpecification transactionSpecification;
 
     @Override
-    public Page<Transaction> getAll(Pageable pageable) {
-        return transactionRepository.findAll(pageable);
+    public Page<Transaction> getAll(
+            TransactionType type, LocalDateTime timestamp, Integer itemId, Pageable pageable
+    ) {
+        Specification<Transaction> specification =
+                transactionSpecification.getSpecification(type,timestamp, itemId);
+        return transactionRepository.findAll(specification, pageable);
     }
 
     @Override
