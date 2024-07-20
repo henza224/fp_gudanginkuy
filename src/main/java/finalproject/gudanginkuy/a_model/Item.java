@@ -20,7 +20,7 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer barcode;
+    private String barcode;
 
     private String name;
 

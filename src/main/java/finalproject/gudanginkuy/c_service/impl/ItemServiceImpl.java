@@ -2,6 +2,12 @@ package finalproject.gudanginkuy.c_service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.NotFoundException;
+import com.google.zxing.Result;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
+import com.google.zxing.common.HybridBinarizer;
 import finalproject.gudanginkuy.a_model.Category;
 import finalproject.gudanginkuy.a_model.Item;
 import finalproject.gudanginkuy.a_model.Vendor;
@@ -21,7 +27,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 @Service
@@ -129,5 +138,19 @@ public class ItemServiceImpl implements ItemService {
         int startIndex = imageUrl.indexOf("/upload/") + "/upload/".length();
         int endIndex = imageUrl.lastIndexOf(".");
         return imageUrl.substring(startIndex, endIndex);
+    }
+
+    public Item getByBarcodeImage(InputStream barcodeImage) throws IOException, NotFoundException {
+        BufferedImage bufferedImage = ImageIO.read(barcodeImage);
+        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(bufferedImage)));
+        Result result = new MultiFormatReader().decode(bitmap);
+        String barcode = result.getText();
+        return getByBarcode(barcode);
+    }
+
+    @Override
+    public Item getByBarcode(String barcode) {
+        return itemRepository.findByBarcode(barcode)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Item not found with barcode: " + barcode));
     }
 }

@@ -1,5 +1,11 @@
 package finalproject.gudanginkuy.c_service.impl;
 
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.NotFoundException;
+import com.google.zxing.Result;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
+import com.google.zxing.common.HybridBinarizer;
 import finalproject.gudanginkuy.a_model.Item;
 import finalproject.gudanginkuy.a_model.Transaction;
 import finalproject.gudanginkuy.a_model.TransactionType;
@@ -18,8 +24,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Service
@@ -67,7 +77,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         creating.setQuantity(transactionQuantity);
-        itemService.update(item.getId(), convertItemToDTO(item)); // Update item quantity in the database
+        itemService.update(item.getId(), convertItemToDTO(item));
         return transactionRepository.save(creating);
     }
 
@@ -87,5 +97,39 @@ public class TransactionServiceImpl implements TransactionService {
         return userRepository.findByUsername(username).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
         );
+    }
+
+
+    @Override
+    public Transaction createTransactionByBarcodeImage(MultipartFile barcodeImage, TransactionType type, HttpServletRequest token) throws IOException, NotFoundException {
+        BufferedImage bufferedImage = ImageIO.read(barcodeImage.getInputStream());
+        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(bufferedImage)));
+        Result result = new MultiFormatReader().decode(bitmap);
+        String barcode = result.getText();
+
+        Item item = itemService.getByBarcode(barcode);
+        User user = getUserfromJWT(token);
+
+        Transaction creating = new Transaction();
+        creating.setItem(item);
+        creating.setTimestamp(LocalDateTime.now());
+        creating.setUser(user);
+        creating.setType(type);
+
+        Integer itemQuantity = item.getQuantity() != null ? item.getQuantity() : 0;
+        Integer transactionQuantity = 1;
+
+        if (type == TransactionType.IN) {
+            item.setQuantity(itemQuantity + transactionQuantity);
+        } else if (type == TransactionType.OUT) {
+            if (itemQuantity < transactionQuantity) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Insufficient quantity in stock");
+            }
+            item.setQuantity(itemQuantity - transactionQuantity);
+        }
+
+        creating.setQuantity(transactionQuantity);
+        itemService.update(item.getId(), convertItemToDTO(item));
+        return transactionRepository.save(creating);
     }
 }

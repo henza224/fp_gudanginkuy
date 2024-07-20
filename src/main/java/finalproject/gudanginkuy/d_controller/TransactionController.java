@@ -1,6 +1,7 @@
 package finalproject.gudanginkuy.d_controller;
 
 
+import com.google.zxing.NotFoundException;
 import finalproject.gudanginkuy.a_model.Transaction;
 import finalproject.gudanginkuy.a_model.TransactionType;
 import finalproject.gudanginkuy.c_service.TransactionService;
@@ -14,6 +15,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/Transaction")
@@ -51,6 +55,24 @@ public class TransactionController {
                 "FOUND",
                 HttpStatus.FOUND
         );
+    }
+
+    @PostMapping("/by-barcode")
+    public ResponseEntity<?> createTransactionByBarcodeImage(
+            HttpServletRequest token,
+            @RequestParam TransactionType type,
+            @RequestParam("barcodeImage") MultipartFile barcodeImage) {
+        try {
+            Transaction transaction = transactionService.createTransactionByBarcodeImage(barcodeImage, type, token);
+            return Res.renderJson(
+                    transaction,
+                    "Created",
+                    HttpStatus.CREATED
+            );
+        } catch (IOException | NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error processing barcode image: " + e.getMessage());
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package finalproject.gudanginkuy.d_controller;
 
+import com.google.zxing.NotFoundException;
 import finalproject.gudanginkuy.a_model.Item;
 import finalproject.gudanginkuy.c_service.ItemService;
 import finalproject.gudanginkuy.c_service.impl.ItemServiceImpl;
@@ -115,6 +116,21 @@ public class ItemController {
 
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Error upload new picture");
+        }
+    }
+
+    @PostMapping("/search-by-barcode")
+    public ResponseEntity<?> searchByBarcodeImage(@RequestParam("barcodeImage") MultipartFile barcodeImage) {
+        try {
+            Item item = itemServiceImpl.getByBarcodeImage(barcodeImage.getInputStream());
+            return Res.renderJson(
+                    item,
+                    "FOUND",
+                    HttpStatus.FOUND
+            );
+        } catch (IOException | NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error processing barcode image: " + e.getMessage());
         }
     }
 }

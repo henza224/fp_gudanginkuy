@@ -1,0 +1,24 @@
+services:
+  mysql:
+    container_name: gudanginkuyserver
+    image: mysql
+    ports:
+      - 3306:3306
+    networks:
+      - gudanginkuy_network
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=gudanginkuy_db
+
+  gudanginkuy_app:
+    depends_on:
+      - mysql
+    container_name: gudanginkuy-api
+    image: gudanginkuy:1.0
+    ports:
+      - 8080:8080
+    networks:
+      - gudanginkuy_network
+networks:
+  gudanginkuy_network:
+    name: gudanginkuy_network
