@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RestController
@@ -46,11 +47,11 @@ public class TransactionController {
     @GetMapping()
     public ResponseEntity<?> getAll(
             @RequestParam (required = false) TransactionType type,
-            @RequestParam (required = false) LocalDateTime timestamp,
-            @RequestParam (required = false) Integer itemId,
+            @RequestParam (required = false) LocalDate date,
+            @RequestParam (required = false) String itemName,
             @PageableDefault Pageable pageable
     ){
-        Page<Transaction> res = transactionService.getAll(type, timestamp, itemId, pageable);
+        Page<Transaction> res = transactionService.getAll(type, date, itemName, pageable);
         PageWrapper<Transaction> result = new PageWrapper<>(res);
         return Res.renderJson(
                 result,

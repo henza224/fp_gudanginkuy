@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,11 +22,12 @@ public class Transaction {
     private Integer id;
 
     @ManyToOne
+    @JoinColumn(name = "item_id")
     private Item item;
 
     private Integer quantity;
 
-    private LocalDateTime timestamp;
+    private LocalDate date;
 
     @ManyToOne
     private User user;

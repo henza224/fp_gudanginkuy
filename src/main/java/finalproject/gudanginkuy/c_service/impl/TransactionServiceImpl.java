@@ -22,7 +22,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -36,10 +38,10 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Page<Transaction> getAll(
-            TransactionType type, LocalDateTime timestamp, Integer itemId, Pageable pageable
+            TransactionType type, LocalDate date, String itemName, Pageable pageable
     ) {
         Specification<Transaction> specification =
-                transactionSpecification.getSpecification(type,timestamp, itemId);
+                transactionSpecification.getSpecification(type, date, itemName);
         return transactionRepository.findAll(specification, pageable);
     }
 
@@ -57,7 +59,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         Transaction creating = new Transaction();
         creating.setItem(item);
-        creating.setTimestamp(LocalDateTime.now());
+        creating.setDate(LocalDate.now());
         creating.setUser(user);
         creating.setType(type);
 
