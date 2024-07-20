@@ -25,7 +25,7 @@ public class Transaction {
 
     private Integer quantity;
 
-    private LocalDateTime timestamp;
+    private LocalDate date;
 
     @ManyToOne
     private User user;

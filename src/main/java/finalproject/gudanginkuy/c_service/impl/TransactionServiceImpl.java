@@ -68,7 +68,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         Transaction creating = new Transaction();
         creating.setItem(item);
-        creating.setTimestamp(LocalDateTime.now());
+        creating.setDate(LocalDate.now());
         creating.setUser(user);
         creating.setType(type);
 
@@ -120,7 +120,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         Transaction creating = new Transaction();
         creating.setItem(item);
-        creating.setTimestamp(LocalDateTime.now());
+        creating.setDate(LocalDate.now());
         creating.setUser(user);
         creating.setType(type);
 

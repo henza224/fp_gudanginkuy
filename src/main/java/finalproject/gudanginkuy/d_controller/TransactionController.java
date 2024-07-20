@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/Transaction")
+@RequestMapping("/transaction")
 @RequiredArgsConstructor
 public class TransactionController {
     private final TransactionService transactionService;
