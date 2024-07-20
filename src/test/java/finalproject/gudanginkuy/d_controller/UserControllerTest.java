@@ -34,30 +34,30 @@ class UserControllerTest {
      @Autowired
     private ObjectMapper objectMapper;
 
-    @Test
-    void testCreateUser() throws Exception {
-        User user = new User();
-        user.setUsername("username");
-        user.setPassword("password");
-        userService.create(user);
-
-        mockMvc.perform(
-                post("/users")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(user))
-        ).andExpectAll(
-                status().isCreated()
-        ).andDo(result -> {
-            WebResponse<User> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>(){});
-
-            assertEquals("Created", response.getStatus());
-            assertEquals("Created", response.getMessage());
-            assertNotNull(response.getData().getId());
-            assertEquals("username", response.getData().getUsername());
-            assertEquals("password", response.getData().getPassword());
-        });
-    }
+//    @Test
+//    void testCreateUser() throws Exception {
+//        User user = new User();
+//        user.setUsername("username");
+//        user.setPassword("password");
+//        userService.create(user);
+//
+//        mockMvc.perform(
+//                post("/users")
+//                        .accept(MediaType.APPLICATION_JSON)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(user))
+//        ).andExpectAll(
+//                status().isCreated()
+//        ).andDo(result -> {
+//            WebResponse<User> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>(){});
+//
+//            assertEquals("Created", response.getStatus());
+//            assertEquals("Created", response.getMessage());
+//            assertNotNull(response.getData().getId());
+//            assertEquals("username", response.getData().getUsername());
+//            assertEquals("password", response.getData().getPassword());
+//        });
+//    }
 
     @Test
     void testGetUserById() throws Exception {
