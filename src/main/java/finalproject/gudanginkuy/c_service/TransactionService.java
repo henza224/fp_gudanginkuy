@@ -10,9 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 public interface TransactionService {
-    Page<Transaction> getAll (Pageable pageable);
+    Page<Transaction> getAll (TransactionType type, LocalDate date, String itemName, Pageable pageable);
     Transaction getOne (Integer id);
     Transaction create (TransactionDTO request, TransactionType type, HttpServletRequest token);
 
