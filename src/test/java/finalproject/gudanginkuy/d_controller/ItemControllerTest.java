@@ -43,7 +43,7 @@ class ItemControllerTest {
     @Test
     void testCreateItem() throws Exception {
         ItemDTO itemDTO = new ItemDTO();
-        itemDTO.setBarcode(1);
+        itemDTO.setBarcode(String.valueOf(1));
         itemDTO.setName("Le Mineral");
         itemDTO.setQuantity(100);
         itemDTO.setVendor_id(1);
@@ -112,7 +112,7 @@ class ItemControllerTest {
     @Test
     void testUpdateItem() throws Exception {
         ItemDTO itemDTO = new ItemDTO();
-        itemDTO.setBarcode(1);
+        itemDTO.setBarcode(String.valueOf(1));
         itemDTO.setName("Le Mineral");
         itemDTO.setQuantity(300);
         itemDTO.setVendor_id(1);

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +29,7 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> create(
             HttpServletRequest token,
             @RequestParam TransactionType type,
@@ -39,6 +41,7 @@ public class TransactionController {
         );
     }
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> getOne(@PathVariable Integer id){
         return Res.renderJson(
                 transactionService.getOne(id),
@@ -47,6 +50,7 @@ public class TransactionController {
         );
     }
     @GetMapping()
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> getAll(
             @RequestParam (required = false) TransactionType type,
             @RequestParam (required = false) LocalDate date,
@@ -63,6 +67,7 @@ public class TransactionController {
     }
 
     @PostMapping("/by-barcode")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> createTransactionByBarcodeImage(
             HttpServletRequest token,
             @RequestParam TransactionType type,

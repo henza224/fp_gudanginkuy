@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +29,7 @@ public class ItemController {
     private final ItemServiceImpl itemServiceImpl;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> create(
             @RequestBody ItemDTO request){
         return Res.renderJson(
@@ -38,6 +40,7 @@ public class ItemController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> getOne(@PathVariable Integer id){
         return Res.renderJson(
                 itemService.getOne(id),
@@ -46,6 +49,7 @@ public class ItemController {
         );
     }
     @GetMapping()
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> getAll(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer quantity,
@@ -60,6 +64,7 @@ public class ItemController {
         );
     }
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?>  update(@PathVariable Integer id, @RequestBody ItemDTO request){
         return Res.renderJson(
                 itemService.update(id, request),
@@ -69,6 +74,7 @@ public class ItemController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<?> delete(
             @PathVariable Integer id
     ) {
@@ -77,6 +83,7 @@ public class ItemController {
     }
 
     @GetMapping("/{id}/barcode")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> generateBarcode(@PathVariable Integer id) {
         try {
             byte[] barcodeImage = itemService.generateBarcode(id);
@@ -90,6 +97,7 @@ public class ItemController {
     }
 
     @PostMapping("/{id}/upload")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> uploadPicture (@PathVariable Integer id, @RequestParam("picture") MultipartFile file){
         try {
             String pictureUrl = itemServiceImpl.uploadPicture(file);
@@ -105,6 +113,7 @@ public class ItemController {
     }
 
     @PutMapping("/{id}/newpicture")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> newPicture(@PathVariable Integer id, @RequestParam("picture") MultipartFile file){
         try {
             Item updatedPicture = itemServiceImpl.deleteOldPicture(id, file);
@@ -120,6 +129,7 @@ public class ItemController {
     }
 
     @PostMapping("/search-by-barcode")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> searchByBarcodeImage(@RequestParam("barcodeImage") MultipartFile barcodeImage) {
         try {
             Item item = itemServiceImpl.getByBarcodeImage(barcodeImage.getInputStream());

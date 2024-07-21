@@ -1,0 +1,182 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > UserController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">finalproject.gudanginkuy.d_controller</a>
+</div>
+
+<h1>Coverage Summary for Class: UserController (finalproject.gudanginkuy.d_controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    16.7%
+  </span>
+  <span class="absValue">
+    (1/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    9.1%
+  </span>
+  <span class="absValue">
+    (1/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package finalproject.gudanginkuy.d_controller;
+&nbsp;
+&nbsp;import finalproject.gudanginkuy.a_model.User;
+&nbsp;import finalproject.gudanginkuy.c_service.UserService;
+&nbsp;import finalproject.gudanginkuy.utils.response.PageWrapper;
+&nbsp;import finalproject.gudanginkuy.utils.response.Res;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.data.web.PageableDefault;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;@RestController
+<b class="fc">&nbsp;@RequiredArgsConstructor</b>
+&nbsp;@RequestMapping(&quot;/users&quot;)
+&nbsp;public class UserController {
+&nbsp;    private final UserService userService;
+&nbsp;
+&nbsp;//    @PostMapping
+&nbsp;//    public ResponseEntity&lt;?&gt; create(@RequestBody User request){
+&nbsp;//        return Res.renderJson(
+&nbsp;//                userService.create(request),
+&nbsp;//                &quot;Created&quot;,
+&nbsp;//                HttpStatus.CREATED
+&nbsp;//        );
+&nbsp;//    }
+&nbsp;
+&nbsp;
+&nbsp;    @GetMapping
+&nbsp;    public ResponseEntity&lt;?&gt; getAll(
+&nbsp;            @RequestParam(required = false) String username,
+&nbsp;            @PageableDefault(page = 0, size = 10) Pageable pageable
+&nbsp;    ) {
+<b class="nc">&nbsp;        Page&lt;User&gt; res = userService.getAll(username, pageable);</b>
+<b class="nc">&nbsp;        PageWrapper&lt;User&gt; result = new PageWrapper&lt;&gt;(res);</b>
+<b class="nc">&nbsp;        return Res.renderJson(</b>
+&nbsp;                result,
+&nbsp;                &quot;FOUND&quot;,
+&nbsp;                HttpStatus.OK
+&nbsp;        );
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;/{id}&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; getOne(@PathVariable Integer id) {
+<b class="nc">&nbsp;        return Res.renderJson(</b>
+<b class="nc">&nbsp;                userService.getOne(id),</b>
+&nbsp;                &quot;FOUND&quot;,
+&nbsp;                HttpStatus.OK
+&nbsp;        );
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @PutMapping(&quot;/gantiusername/{id}&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; updategantiusername(@PathVariable Integer id, @RequestBody User users){
+<b class="nc">&nbsp;        return Res.renderJson(</b>
+<b class="nc">&nbsp;                userService.updategantiusername(id, users),</b>
+&nbsp;                &quot;Success Update Username&quot;,
+&nbsp;                HttpStatus.OK
+&nbsp;        );
+&nbsp;    }
+&nbsp;
+&nbsp;    @PutMapping(&quot;/gantipassword/{id}&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; updategantipassword(@PathVariable Integer id, @RequestBody User users){
+<b class="nc">&nbsp;        return Res.renderJson(</b>
+<b class="nc">&nbsp;                userService.updategantipassword(id, users),</b>
+&nbsp;                &quot;Success Update Password&quot;,
+&nbsp;                HttpStatus.OK
+&nbsp;        );
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @DeleteMapping(&quot;/{id}&quot;)
+&nbsp;    public void delete(@PathVariable Integer id){
+<b class="nc">&nbsp;        userService.delete(id);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-20 23:03</div>
+</div>
+</body>
+</html>

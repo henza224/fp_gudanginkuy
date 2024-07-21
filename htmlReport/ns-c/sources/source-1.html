@@ -1,0 +1,91 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > TransactionService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">finalproject.gudanginkuy.c_service</a>
+</div>
+
+<h1>Coverage Summary for Class: TransactionService (finalproject.gudanginkuy.c_service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">TransactionService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package finalproject.gudanginkuy.c_service;
+&nbsp;
+&nbsp;import com.google.zxing.NotFoundException;
+&nbsp;import finalproject.gudanginkuy.a_model.Transaction;
+&nbsp;import finalproject.gudanginkuy.a_model.TransactionType;
+&nbsp;import finalproject.gudanginkuy.utils.dto.TransactionDTO;
+&nbsp;import jakarta.servlet.http.HttpServletRequest;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.web.multipart.MultipartFile;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.time.LocalDate;
+&nbsp;
+&nbsp;public interface TransactionService {
+&nbsp;    Page&lt;Transaction&gt; getAll (TransactionType type, LocalDate date, String itemName, Pageable pageable);
+&nbsp;    Transaction getOne (Integer id);
+&nbsp;    Transaction create (TransactionDTO request, TransactionType type, HttpServletRequest token);
+&nbsp;
+&nbsp;    Transaction createTransactionByBarcodeImage(
+&nbsp;            MultipartFile barcodeImage, TransactionType type, HttpServletRequest token)
+&nbsp;            throws IOException, NotFoundException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-20 23:03</div>
+</div>
+</body>
+</html>
