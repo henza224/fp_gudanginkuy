@@ -1,0 +1,1293 @@
+{
+	"info": {
+		"_postman_id": "8f911a54-d7b3-4e52-85c1-77989b5b4231",
+		"name": "FP GudangInKuy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36496929"
+	},
+	"item": [
+		{
+			"name": "Item",
+			"item": [
+				{
+					"name": "Create Item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNTYzMDQ0LCJleHAiOjE3MzM5MDg3MjN9.ofEPU7bGlZfQRXoUDtly6-0h_daH_Yv1ZUhDB4ACGo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"barcode\": 123456784,\r\n    \"name\": \"item a\",\r\n    \"quantity\": 10,\r\n    \"vendor_id\": 1,\r\n    \"category_id\": 1\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/item",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Item Pic",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response content type is 'text/xml'\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.include('text/xml');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response schema validation for the expected structure and data types\", function () {\r",
+									"    const responseData = xml2Json(pm.response.text());\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNTU5ODA2LCJleHAiOjE3MzM5MDU0ODV9.Nw3uSkk1rBRHd5o9fyHZP995BrdoYgGQdM9jZ0zkfJA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "picture",
+									"type": "file",
+									"src": "/C:/Users/Voids/Pictures/Creative Text Creator/CreativeText_9-6-2023_30918_PM.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/item/1/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"1",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Barcode Item",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNDg5NTAyLCJleHAiOjE3MzM4MzUxODF9.rhz37TYgvHVUjpxzp2GIC29LxZW170gLhVYjLAorn_s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://localhost:8080/item/1/barcode",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"1",
+								"barcode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNDg5NTAyLCJleHAiOjE3MzM4MzUxODF9.rhz37TYgvHVUjpxzp2GIC29LxZW170gLhVYjLAorn_s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/item",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Item By id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNDg5NTAyLCJleHAiOjE3MzM4MzUxODF9.rhz37TYgvHVUjpxzp2GIC29LxZW170gLhVYjLAorn_s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "barcodeImage",
+									"type": "file",
+									"src": "/C:/Users/Voids/Desktop/barcode.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/item/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Item By Barcode",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNTYzMDQ0LCJleHAiOjE3MzM5MDg3MjN9.ofEPU7bGlZfQRXoUDtly6-0h_daH_Yv1ZUhDB4ACGo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "barcodeImage",
+									"type": "file",
+									"src": "/C:/Users/Voids/Desktop/barcode.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/item/search-by-barcode",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"search-by-barcode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNDg5NTAyLCJleHAiOjE3MzM4MzUxODF9.rhz37TYgvHVUjpxzp2GIC29LxZW170gLhVYjLAorn_s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/item/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Item Pic",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNDg5NTAyLCJleHAiOjE3MzM4MzUxODF9.rhz37TYgvHVUjpxzp2GIC29LxZW170gLhVYjLAorn_s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "picture",
+									"type": "file",
+									"src": "/C:/Users/Voids/Pictures/Creative Text Creator/CreativeText_9-13-2023_50115_PM.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/item/1/newpicture",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"1",
+								"newpicture"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNDg5NTAyLCJleHAiOjE3MzM4MzUxODF9.rhz37TYgvHVUjpxzp2GIC29LxZW170gLhVYjLAorn_s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/item/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vendor",
+			"item": [
+				{
+					"name": "Create Vendor",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNTYzMDQ0LCJleHAiOjE3MzM5MDg3MjN9.ofEPU7bGlZfQRXoUDtly6-0h_daH_Yv1ZUhDB4ACGo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vendorName\": \"Vendor a\",\r\n    \"address\": \"Address a\",\r\n    \"noTelephone\": 123456729\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vendor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vendor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Vendor",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNTYzMDQ0LCJleHAiOjE3MzM5MDg3MjN9.ofEPU7bGlZfQRXoUDtly6-0h_daH_Yv1ZUhDB4ACGo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/vendor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vendor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Vendor By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNTYzMDQ0LCJleHAiOjE3MzM5MDg3MjN9.ofEPU7bGlZfQRXoUDtly6-0h_daH_Yv1ZUhDB4ACGo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/vendor/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vendor",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Vendor",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNDg5NTAyLCJleHAiOjE3MzM4MzUxODF9.rhz37TYgvHVUjpxzp2GIC29LxZW170gLhVYjLAorn_s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"noTelephone\": 12344321\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vendor/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vendor",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Vendor",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNDg5NTAyLCJleHAiOjE3MzM4MzUxODF9.rhz37TYgvHVUjpxzp2GIC29LxZW170gLhVYjLAorn_s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/vendor/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vendor",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Create Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNTYzMDQ0LCJleHAiOjE3MzM5MDg3MjN9.ofEPU7bGlZfQRXoUDtly6-0h_daH_Yv1ZUhDB4ACGo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"kategori a\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNTYzMDQ0LCJleHAiOjE3MzM5MDg3MjN9.ofEPU7bGlZfQRXoUDtly6-0h_daH_Yv1ZUhDB4ACGo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNTYzMDQ0LCJleHAiOjE3MzM5MDg3MjN9.ofEPU7bGlZfQRXoUDtly6-0h_daH_Yv1ZUhDB4ACGo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/category/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"category",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNTYzMDQ0LCJleHAiOjE3MzM5MDg3MjN9.ofEPU7bGlZfQRXoUDtly6-0h_daH_Yv1ZUhDB4ACGo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"kategori ab\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/category/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"category",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNDg5NTAyLCJleHAiOjE3MzM4MzUxODF9.rhz37TYgvHVUjpxzp2GIC29LxZW170gLhVYjLAorn_s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/category/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"category",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "Create Transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validate the response schema for required fields - status, message, data\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.status).to.exist;\r",
+									"    pm.expect(responseData.message).to.exist;\r",
+									"    pm.expect(responseData.data).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validate the nested item object for required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.data.item).to.be.an('object');\r",
+									"    pm.expect(responseData.data.item.id).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.barcode).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.name).to.exist.and.to.be.a('string');\r",
+									"    pm.expect(responseData.data.item.quantity).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.vendor).to.exist.and.to.be.an('object');\r",
+									"    pm.expect(responseData.data.item.category).to.exist.and.to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Quantity is a non-negative integer\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.data.quantity).to.be.a('number').and.to.satisfy((quantity) => quantity >= 0, \"Quantity should be a non-negative integer\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNTYzMDQ0LCJleHAiOjE3MzM5MDg3MjN9.ofEPU7bGlZfQRXoUDtly6-0h_daH_Yv1ZUhDB4ACGo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"itemId\": 1,\r\n    \"quantity\": 40\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/transaction?type=IN",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transaction"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "IN"
+								},
+								{
+									"key": "type",
+									"value": "OUT",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Transaction By Barcode",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validate the response schema for required fields - status, message, data\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.status).to.exist;\r",
+									"    pm.expect(responseData.message).to.exist;\r",
+									"    pm.expect(responseData.data).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validate the nested item object for required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.data.item).to.be.an('object');\r",
+									"    pm.expect(responseData.data.item.id).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.barcode).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.name).to.exist.and.to.be.a('string');\r",
+									"    pm.expect(responseData.data.item.quantity).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.vendor).to.exist.and.to.be.an('object');\r",
+									"    pm.expect(responseData.data.item.category).to.exist.and.to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Quantity is a non-negative integer\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.data.quantity).to.be.a('number').and.to.satisfy((quantity) => quantity >= 0, \"Quantity should be a non-negative integer\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNTYzMDQ0LCJleHAiOjE3MzM5MDg3MjN9.ofEPU7bGlZfQRXoUDtly6-0h_daH_Yv1ZUhDB4ACGo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "type",
+									"value": "OUT",
+									"type": "text"
+								},
+								{
+									"key": "barcodeImage",
+									"type": "file",
+									"src": "/C:/Users/Voids/Desktop/barcode.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/transaction/by-barcode",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transaction",
+								"by-barcode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validate the response schema for required fields - status, message, data\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.status).to.exist;\r",
+									"    pm.expect(responseData.message).to.exist;\r",
+									"    pm.expect(responseData.data).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validate the nested item object for required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.data.item).to.be.an('object');\r",
+									"    pm.expect(responseData.data.item.id).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.barcode).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.name).to.exist.and.to.be.a('string');\r",
+									"    pm.expect(responseData.data.item.quantity).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.vendor).to.exist.and.to.be.an('object');\r",
+									"    pm.expect(responseData.data.item.category).to.exist.and.to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Quantity is a non-negative integer\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.data.quantity).to.be.a('number').and.to.satisfy((quantity) => quantity >= 0, \"Quantity should be a non-negative integer\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiBzdG9jayIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzIxNDg5NTAyLCJleHAiOjE3MzM4MzUxODF9.rhz37TYgvHVUjpxzp2GIC29LxZW170gLhVYjLAorn_s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/transaction?type=IN",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transaction"
+							],
+							"query": [
+								{
+									"key": "itemName",
+									"value": "item a",
+									"disabled": true
+								},
+								{
+									"key": "date",
+									"value": "2024-07-21",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": "IN"
+								},
+								{
+									"key": "type",
+									"value": "OUT",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Auth Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validate the response schema for required fields - status, message, data\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.status).to.exist;\r",
+									"    pm.expect(responseData.message).to.exist;\r",
+									"    pm.expect(responseData.data).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validate the nested item object for required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.data.item).to.be.an('object');\r",
+									"    pm.expect(responseData.data.item.id).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.barcode).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.name).to.exist.and.to.be.a('string');\r",
+									"    pm.expect(responseData.data.item.quantity).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.vendor).to.exist.and.to.be.an('object');\r",
+									"    pm.expect(responseData.data.item.category).to.exist.and.to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Quantity is a non-negative integer\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.data.quantity).to.be.a('number').and.to.satisfy((quantity) => quantity >= 0, \"Quantity should be a non-negative integer\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"admin stock\",\r\n    \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validate the response schema for required fields - status, message, data\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.status).to.exist;\r",
+									"    pm.expect(responseData.message).to.exist;\r",
+									"    pm.expect(responseData.data).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validate the nested item object for required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.data.item).to.be.an('object');\r",
+									"    pm.expect(responseData.data.item.id).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.barcode).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.name).to.exist.and.to.be.a('string');\r",
+									"    pm.expect(responseData.data.item.quantity).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.vendor).to.exist.and.to.be.an('object');\r",
+									"    pm.expect(responseData.data.item.category).to.exist.and.to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Quantity is a non-negative integer\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.data.quantity).to.be.a('number').and.to.satisfy((quantity) => quantity >= 0, \"Quantity should be a non-negative integer\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"admin stock\",\r\n    \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validate the response schema for required fields - status, message, data\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.status).to.exist;\r",
+									"    pm.expect(responseData.message).to.exist;\r",
+									"    pm.expect(responseData.data).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validate the nested item object for required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.data.item).to.be.an('object');\r",
+									"    pm.expect(responseData.data.item.id).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.barcode).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.name).to.exist.and.to.be.a('string');\r",
+									"    pm.expect(responseData.data.item.quantity).to.exist.and.to.be.a('number');\r",
+									"    pm.expect(responseData.data.item.vendor).to.exist.and.to.be.an('object');\r",
+									"    pm.expect(responseData.data.item.category).to.exist.and.to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Quantity is a non-negative integer\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.data.quantity).to.be.a('number').and.to.satisfy((quantity) => quantity >= 0, \"Quantity should be a non-negative integer\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"admin stock\",\r\n    \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
