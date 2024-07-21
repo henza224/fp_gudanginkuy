@@ -6,6 +6,7 @@ import finalproject.gudanginkuy.b_repository.UserRepository;
 import finalproject.gudanginkuy.utils.dto.UserDTO;
 import finalproject.gudanginkuy.utils.response.Res;
 import finalproject.gudanginkuy.utils.security.JwtTokenProvider;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -146,6 +148,24 @@ public class AuthController {
                     "Logout Successful!",
                     HttpStatus.OK);
 
+    }
+    @PostConstruct
+    public void initAdmin() {
+        String username = "admin";
+        String password = "admin";
+
+        Optional<User> optionalUserCredential = userRepository.findByUsername(username);
+        if(optionalUserCredential.isPresent()) {
+            return;
+        }
+
+        Role roleAdmin = Role.ROLE_ADMIN;
+        User userCredential = User.builder()
+                .username(username)
+                .password(passwordEncoder.encode(password))
+                .role(roleAdmin)
+                .build();
+        userRepository.save(userCredential);
     }
 }
 
