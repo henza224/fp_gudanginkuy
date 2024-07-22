@@ -41,4 +41,12 @@ public class TransactionSpecification {
 
         };
     }
+
+    // Menambahkan spesifikasi untuk mencari berdasarkan nama item
+    private Specification<Transaction> hasItemName(String itemName) {
+        return (root, query, builder) -> {
+            return builder.equal(root.get("item").get("name"), itemName);
+        };
+    }
+
 }

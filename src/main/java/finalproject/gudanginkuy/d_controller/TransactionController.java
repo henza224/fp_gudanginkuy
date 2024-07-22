@@ -6,6 +6,7 @@ import finalproject.gudanginkuy.a_model.Transaction;
 import finalproject.gudanginkuy.a_model.TransactionType;
 import finalproject.gudanginkuy.c_service.TransactionService;
 import finalproject.gudanginkuy.utils.dto.TransactionDTO;
+import finalproject.gudanginkuy.utils.dto.TransactionSummaryDTO;
 import finalproject.gudanginkuy.utils.response.PageWrapper;
 import finalproject.gudanginkuy.utils.response.Res;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/transaction")
@@ -85,4 +87,13 @@ public class TransactionController {
         }
     }
 
+    @GetMapping("/summaries")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    public ResponseEntity<Page<TransactionSummaryDTO>> getTransactionSummariesByItemName(
+            @RequestParam String itemName,
+            Pageable pageable) {
+        Page<TransactionSummaryDTO> summaries = transactionService.getTransactionSummariesByItemName(itemName, pageable);
+        return ResponseEntity.ok(summaries);
+    }
 }
+

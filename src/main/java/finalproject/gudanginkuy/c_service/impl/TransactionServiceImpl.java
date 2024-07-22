@@ -16,6 +16,7 @@ import finalproject.gudanginkuy.c_service.ItemService;
 import finalproject.gudanginkuy.c_service.TransactionService;
 import finalproject.gudanginkuy.utils.dto.ItemDTO;
 import finalproject.gudanginkuy.utils.dto.TransactionDTO;
+import finalproject.gudanginkuy.utils.dto.TransactionSummaryDTO;
 import finalproject.gudanginkuy.utils.security.JwtAuthenticationFilter;
 import finalproject.gudanginkuy.utils.security.JwtTokenProvider;
 import finalproject.gudanginkuy.utils.specification.TransactionSpecification;
@@ -33,7 +34,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -143,5 +145,15 @@ public class TransactionServiceImpl implements TransactionService {
         creating.setQuantity(transactionQuantity);
         itemService.update(item.getId(), convertItemToDTO(item));
         return transactionRepository.save(creating);
+    }
+
+    @Override
+    public Page<TransactionSummaryDTO> getTransactionSummariesByItemName(String itemName, Pageable pageable) {
+        Page<Transaction> transactionsPage = transactionRepository.findAll(transactionSpecification.getSpecification(null, null, itemName), pageable);
+
+        return transactionsPage.map(transaction -> TransactionSummaryDTO.builder()
+                .type(transaction.getType())
+                .quantity(transaction.getQuantity())
+                .build());
     }
 }

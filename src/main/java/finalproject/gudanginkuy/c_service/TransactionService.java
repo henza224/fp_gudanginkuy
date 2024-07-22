@@ -4,6 +4,7 @@ import com.google.zxing.NotFoundException;
 import finalproject.gudanginkuy.a_model.Transaction;
 import finalproject.gudanginkuy.a_model.TransactionType;
 import finalproject.gudanginkuy.utils.dto.TransactionDTO;
+import finalproject.gudanginkuy.utils.dto.TransactionSummaryDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 public interface TransactionService {
     Page<Transaction> getAll (TransactionType type, LocalDate date, String itemName, Pageable pageable);
@@ -20,4 +22,6 @@ public interface TransactionService {
     Transaction createTransactionByBarcodeImage(
             MultipartFile barcodeImage, TransactionType type, HttpServletRequest token)
             throws IOException, NotFoundException;
+
+    Page<TransactionSummaryDTO> getTransactionSummariesByItemName(String itemName, Pageable pageable);
 }

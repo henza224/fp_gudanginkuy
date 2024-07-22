@@ -57,6 +57,11 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item create(ItemDTO request) {
+        // Cek apakah barcode sudah ada
+        if (itemRepository.findByBarcode(request.getBarcode()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Barcode sudah digunakan.");
+        }
+
         Vendor vendor = vendorService.getOne(request.getVendor_id());
         Category category = categoryService.getOne(request.getCategory_id());
 
