@@ -28,12 +28,18 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public Vendor create(Vendor request) {
+        if (vendorRepository.existsByVendorName(request.getVendorName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nama vendor sudah ada.");
+        }
         request.setNoTelephone(formatNoTelephone(request.getNoTelephone()));
         return vendorRepository.save(request);
     }
 
     @Override
     public Vendor update(Integer id, Vendor request) {
+        if (vendorRepository.existsByVendorName(request.getVendorName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nama vendor sudah ada.");
+        }
         Vendor update = this.getOne(id);
         if (request.getVendorName() != null){
             update.setVendorName(request.getVendorName());

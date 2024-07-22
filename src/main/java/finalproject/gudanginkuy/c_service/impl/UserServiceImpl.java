@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
@@ -40,6 +42,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updategantiusername(Integer id, User request) {
+        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username sudah digunakan.");
+        }
         User user = this.getOne(id);
         user.setUsername(request.getUsername());
         userRepository.save(user);

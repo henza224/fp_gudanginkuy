@@ -28,11 +28,17 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category create(Category request) {
+        if (categoryRepository.existsByCategoryName(request.getCategoryName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nama vendor sudah ada.");
+        }
         return categoryRepository.save(request);
     }
 
     @Override
     public Category update(Integer id, Category request) {
+        if (categoryRepository.existsByCategoryName(request.getCategoryName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nama vendor sudah ada.");
+        }
         Category category = this.getOne(id);
         category.setCategoryName(request.getCategoryName());
         return categoryRepository.save(category);
