@@ -52,10 +52,12 @@ public class ItemController {
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<?> getAll(
             @RequestParam(required = false) String name,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String vendor,
             @RequestParam(required = false) Integer quantity,
             @PageableDefault Pageable pageable
     ){
-        Page<Item> res = itemService.getAll(name, quantity, pageable);
+        Page<Item> res = itemService.getAll(name, category, vendor, quantity, pageable);
         PageWrapper<Item> result = new PageWrapper<>(res);
         return Res.renderJson(
                 result,

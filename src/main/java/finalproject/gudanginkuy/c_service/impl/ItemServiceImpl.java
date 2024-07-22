@@ -42,8 +42,10 @@ public class ItemServiceImpl implements ItemService {
     private final Cloudinary cloudinary;
 
     @Override
-    public Page<Item> getAll(String name, Integer quantity, Pageable pageable) {
-        Specification<Item> specification = ItemSpecification.getSpecification(name, quantity);
+    public Page<Item> getAll(
+            String name, String category, String vendor, Integer quantity, Pageable pageable
+    ) {
+        Specification<Item> specification = ItemSpecification.getSpecification(name, category, vendor, quantity );
         return itemRepository.findAll(specification, pageable);
     }
 

@@ -9,7 +9,7 @@ import com.google.zxing.NotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 public interface ItemService {
-    Page<Item> getAll(String name, Integer quantity, Pageable pageable);
+    Page<Item> getAll(String name, String category, String vendor, Integer quantity, Pageable pageable);
     Item getOne(Integer id);
     Item create(ItemDTO Request);
     Item update(Integer id, ItemDTO request);
