@@ -149,24 +149,7 @@ public class AuthController {
                     HttpStatus.OK);
 
     }
-    @PostConstruct
-    public void initAdmin() {
-        String username = "admin";
-        String password = "admin";
 
-        Optional<User> optionalUserCredential = userRepository.findByUsername(username);
-        if(optionalUserCredential.isPresent()) {
-            return;
-        }
-
-        Role roleAdmin = Role.ROLE_ADMIN;
-        User userCredential = User.builder()
-                .username(username)
-                .password(passwordEncoder.encode(password))
-                .role(roleAdmin)
-                .build();
-        userRepository.save(userCredential);
-    }
 }
 
 
