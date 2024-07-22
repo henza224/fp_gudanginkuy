@@ -41,7 +41,6 @@ public class ItemServiceImpl implements ItemService {
     private final CategoryService categoryService;
     private final Cloudinary cloudinary;
 
-    @Override
     public Page<Item> getAll(
             String name, String category, String vendor, Integer quantity, Pageable pageable
     ) {

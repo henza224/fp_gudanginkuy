@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -56,7 +57,7 @@ public class ItemServiceTest {
                 .build();
         category = Category.builder()
                 .id(1)
-                .name("makanan")
+                .categoryName("makanan")
                 .build();
         itemDTO = ItemDTO.builder()
                 .category_id(1)
@@ -95,16 +96,15 @@ public class ItemServiceTest {
     }
 
     @Test
-    void getAllItem(){
-        Pageable pageable = PageRequest.of(0,10);
+    void getAll() {
+        Pageable pageable = PageRequest.of(0, 10);
         Page<Item> items = new PageImpl<>(Collections.emptyList());
-        when(repository.findAll(pageable)).thenReturn(items);
+        when(repository.findAll(any(Specification.class), eq(pageable))).thenReturn(items);
 
-        Page<Item> result = itemService.getAll("test",10,pageable);
+        Page<Item> result = itemService.getAll("testName", "testCategory", "testVendor", 10, pageable);
 
         assertNotNull(result);
-        assertEquals(items,result);
-
+        assertEquals(items, result);
     }
 
     @Test

@@ -33,7 +33,7 @@ public class CategoryServiceTest {
     public void CategoryService_Create_ReturnCreatedCategory(){
         Category category = mock(Category.class);
         Category category1= Category.builder()
-                .name("category")
+                .categoryName("category")
                 .build();
 
         when(categoryRepository.save(any(Category.class)))
@@ -57,7 +57,7 @@ public class CategoryServiceTest {
     public void CategoryService_UpdateById_ReturnUpdatedCategory() {
         Category category1 = mock(Category.class);
         Category category = Category.builder()
-                .name("customer 1")
+                .categoryName("customer 1")
                 .build();
 
         when(categoryRepository.findById(any(Integer.class)))

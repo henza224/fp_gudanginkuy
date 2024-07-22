@@ -24,7 +24,7 @@ public class CategoryRepositoryTest {
         public void Create() {
             Category category = Category.builder()
                     .id(1)
-                    .name("Minuman")
+                    .categoryName("Minuman")
                     .build();
             categoryRepository.save(category);
 
@@ -39,10 +39,10 @@ public class CategoryRepositoryTest {
         public void GetAll() {
             Category category =Category.builder()
                     .id(1)
-                    .name("category")
+                    .categoryName("category")
                     .build();
             Category category1 = Category.builder()
-                    .name("customer 1")
+                    .categoryName("customer 1")
                     .build();
             categoryRepository.save(category);
             categoryRepository.save(category1);
@@ -56,7 +56,7 @@ public class CategoryRepositoryTest {
         @Test
         public void GetById() {
             Category category = Category.builder()
-                    .name("category 1")
+                    .categoryName("category 1")
                     .build();
             categoryRepository.save(category);
 
@@ -69,22 +69,22 @@ public class CategoryRepositoryTest {
         public void update() {
             Category category = Category.builder()
                     .id(1)
-                    .name("test")
+                    .categoryName("test")
                     .build();
             categoryRepository.save(category);
 
             Category foundCategory = categoryRepository.findById(category.getId()).orElseThrow();
-            foundCategory.setName("updated");
+            foundCategory.setCategoryName("updated");
             Category updated = categoryRepository.save(foundCategory);
 
             assertThat(updated).isNotNull();
-            assertThat(updated.getName()).isEqualTo("updated");
+            assertThat(updated.getCategoryName()).isEqualTo("updated");
         }
 
         @Test
         public void Delete() {
             Category category = Category.builder()
-                    .name("test")
+                    .categoryName("test")
                     .build();
             categoryRepository.save(category);
 

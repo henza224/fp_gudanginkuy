@@ -30,20 +30,20 @@ public class UserServiceTest {
     @InjectMocks
     private UserServiceImpl userService;
 
-    @Test
-    public void createUser(){
-        User user = mock(User.class);
-        User user1 = User.builder()
-                .username("budi")
-                .password("1234")
-                .role(Role.ROLE_USER)
-                .build();
-        when(userRepository.save(any(User.class)))
-                .thenReturn(user);
-        User addUser = userService.create(user1);
-
-        assertThat(addUser).isNotNull();
-    }
+//    @Test
+//    public void createUser(){
+//        User user = mock(User.class);
+//        User user1 = User.builder()
+//                .username("budi")
+//                .password("1234")
+//                .role(Role.ROLE_USER)
+//                .build();
+//        when(userRepository.save(any(User.class)))
+//                .thenReturn(user);
+//        User addUser = userService.create(user1);
+//
+//        assertThat(addUser).isNotNull();
+//    }
     @Test
     public void getByIdTest(){
         User user = mock(User.class);

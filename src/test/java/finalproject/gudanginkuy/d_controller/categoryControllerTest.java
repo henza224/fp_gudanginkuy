@@ -35,7 +35,7 @@ class categoryControllerTest {
     @Test
     void testCreateCategory() throws Exception {
         Category category = new Category();
-        category.setName("Makanan");
+        category.setCategoryName("Makanan");
         categoryService.create(category);
 
         mockMvc.perform(
@@ -51,7 +51,7 @@ class categoryControllerTest {
             assertEquals("Created", response.getStatus());
             assertEquals("Created", response.getMessage());
             assertNotNull(response.getData().getId());
-            assertEquals("Makanan", response.getData().getName());
+            assertEquals("Makanan", response.getData().getCategoryName());
         });
     }
 
@@ -84,14 +84,14 @@ class categoryControllerTest {
             assertEquals("Found", response.getStatus());
             assertEquals("FOUND", response.getMessage());
             assertEquals(1, response.getData().getId());
-            assertEquals("Makanan", response.getData().getName());
+            assertEquals("Makanan", response.getData().getCategoryName());
         });
     }
 
     @Test
     void testUpdateCategory() throws Exception {
         Category category = categoryService.getOne(1);
-        category.setName("Minuman");
+        category.setCategoryName("Minuman");
         categoryService.update(1, category);
 
         mockMvc.perform(
@@ -107,7 +107,7 @@ class categoryControllerTest {
             assertEquals("Found", response.getStatus());
             assertEquals("FOUND", response.getMessage());
             assertEquals(1, response.getData().getId());
-            assertEquals("Minuman", response.getData().getName());
+            assertEquals("Minuman", response.getData().getCategoryName());
         });
     }
 }

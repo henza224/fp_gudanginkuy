@@ -36,7 +36,7 @@ class VendorControllerTest {
         Vendor vendor = new Vendor();
         vendor.setVendorName("Bakti Karya");
         vendor.setAddress("Jl. Abdul Wahab RT.03 RW.03 Sawangan, Depok");
-        vendor.setNoTelephone(123456);
+        vendor.setNoTelephone("12340354756");
         vendorService.create(vendor);
 
         mockMvc.perform(
@@ -99,7 +99,7 @@ class VendorControllerTest {
         Vendor vendor = vendorService.getOne(1);
         vendor.setVendorName("Bakti Karya");
         vendor.setAddress("Jl. Raya Keadilan No.48, RT.2/RW.1, Rangkapan Jaya Baru, Kec. Pancoran Mas, Kota Depok");
-        vendor.setNoTelephone(123456789);
+        vendor.setNoTelephone("12345678901");
         vendorService.update(1, vendor);
 
         mockMvc.perform(
