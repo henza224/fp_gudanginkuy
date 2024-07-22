@@ -1,6 +1,10 @@
 package finalproject.gudanginkuy.utils.specification;
 
+import finalproject.gudanginkuy.a_model.Category;
 import finalproject.gudanginkuy.a_model.Item;
+import finalproject.gudanginkuy.a_model.Vendor;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -10,7 +14,7 @@ import java.util.List;
 public class ItemSpecification {
 
     public static Specification<Item> getSpecification(
-            String name, Integer quantity
+            String name, String category, String vendor,  Integer quantity
     ){
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -36,6 +40,17 @@ public class ItemSpecification {
                 }
                 predicates.add(quantityPredicates);
             }
+            if (category != null && !category.isEmpty()) {
+                Join<Item, Category> joinCategory = root.join("category", JoinType.INNER);
+                predicates.add(criteriaBuilder.like(joinCategory.get("categoryName"), "%" + category + "%"));
+            }
+            if (vendor != null && !vendor.isEmpty()) {
+                Join<Item, Vendor> joinVendor = root.join("vendor", JoinType.INNER);
+                predicates.add(criteriaBuilder.like(joinVendor.get("vendorName"), "%" + vendor + "%"));
+            }
+
+
+
             return query.where(predicates.toArray(new Predicate[]{})).getRestriction();
         };
     }
