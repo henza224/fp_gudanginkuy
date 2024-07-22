@@ -18,5 +18,5 @@ public class Vendor {
 
     private String address;
 
-    private Integer noTelephone;
+    private String noTelephone;
 }

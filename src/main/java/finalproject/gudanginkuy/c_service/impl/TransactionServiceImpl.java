@@ -66,6 +66,11 @@ public class TransactionServiceImpl implements TransactionService {
         Item item = itemService.getOne(request.getItemId());
         User user = getUserfromJWT(token);
 
+        Integer transactionQuantity = request.getQuantity();
+        if (transactionQuantity <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Quantity tidak boleh bernilai kurang dari atau sama dengan 0.");
+        }
+
         Transaction creating = new Transaction();
         creating.setItem(item);
         creating.setDate(LocalDate.now());
@@ -73,7 +78,6 @@ public class TransactionServiceImpl implements TransactionService {
         creating.setType(type);
 
         Integer itemQuantity = item.getQuantity() != null ? item.getQuantity() : 0;
-        Integer transactionQuantity = request.getQuantity();
 
         if (type == TransactionType.IN) {
             item.setQuantity(itemQuantity + transactionQuantity);

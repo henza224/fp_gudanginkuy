@@ -16,8 +16,7 @@ public class VendorServiceImpl implements VendorService {
     private final VendorRepository vendorRepository;
 
     @Override
-    public Page<Vendor> getAll(Pageable pageable) {
-        return vendorRepository.findAll(pageable);
+    public Page<Vendor> getAll(Pageable pageable) {return vendorRepository.findAll(pageable);
     }
 
     @Override
@@ -29,6 +28,7 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public Vendor create(Vendor request) {
+        request.setNoTelephone(formatNoTelephone(request.getNoTelephone()));
         return vendorRepository.save(request);
     }
 
@@ -42,8 +42,7 @@ public class VendorServiceImpl implements VendorService {
             update.setAddress(request.getAddress());
         }
         if (request.getNoTelephone() != null) {
-            System.out.println("Request NoTelephone: " + request.getNoTelephone()); // Tambahkan logging ini
-            update.setNoTelephone(request.getNoTelephone());
+            update.setNoTelephone(formatNoTelephone(request.getNoTelephone()));
         }
         return vendorRepository.save(update);
     }
@@ -51,5 +50,15 @@ public class VendorServiceImpl implements VendorService {
     @Override
     public void delete(Integer id) {
         vendorRepository.deleteById(id);
+    }
+
+    private String formatNoTelephone(String noTelephone) {
+        validateNoTelephone(noTelephone);
+        return "+62 " + noTelephone;
+    }
+    private void validateNoTelephone(String noTelephone) {
+        if (!noTelephone.matches("\\d{11,12}")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nomor telepon harus berisi 12 sampai 13 digit angka.");
+        }
     }
 }

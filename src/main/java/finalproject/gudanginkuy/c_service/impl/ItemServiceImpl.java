@@ -60,6 +60,10 @@ public class ItemServiceImpl implements ItemService {
         Vendor vendor = vendorService.getOne(request.getVendor_id());
         Category category = categoryService.getOne(request.getCategory_id());
 
+        if (request.getQuantity() < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Quantity tidak boleh bernilai kurang dari 0.");
+        }
+
         Item creating = new Item();
         creating.setBarcode(request.getBarcode());
         creating.setName(request.getName());
@@ -93,6 +97,9 @@ public class ItemServiceImpl implements ItemService {
         }
 
         if (request.getQuantity() != null) {
+            if (request.getQuantity() < 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Quantity tidak boleh bernilai kurang dari 0.");
+            }
             itemToUpdate.setQuantity(request.getQuantity());
         }
 
