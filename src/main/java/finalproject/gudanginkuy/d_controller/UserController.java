@@ -1,5 +1,6 @@
 package finalproject.gudanginkuy.d_controller;
 
+
 import finalproject.gudanginkuy.a_model.User;
 import finalproject.gudanginkuy.c_service.UserService;
 import finalproject.gudanginkuy.utils.response.PageWrapper;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,17 +20,18 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody User request){
-        return Res.renderJson(
-                userService.create(request),
-                "Created",
-                HttpStatus.CREATED
-        );
-    }
+//    @PostMapping
+//    public ResponseEntity<?> create(@RequestBody User request){
+//        return Res.renderJson(
+//                userService.create(request),
+//                "Created",
+//                HttpStatus.CREATED
+//        );
+//    }
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAll(
             @RequestParam(required = false) String username,
             @PageableDefault(page = 0, size = 10) Pageable pageable
@@ -43,23 +46,40 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getOne(@PathVariable Integer id) {
-        return userService.getOne(id);
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public ResponseEntity<?> getOne(@PathVariable Integer id) {
+        return Res.renderJson(
+                userService.getOne(id),
+                "FOUND",
+                HttpStatus.OK
+        );
     }
 
 
     @PutMapping("/gantiusername/{id}")
-    public User updategantiusername(@PathVariable Integer id, @RequestBody User users){
-        return userService.updategantiusername(id, users);
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public ResponseEntity<?> updategantiusername(@PathVariable Integer id, @RequestBody User users){
+
+        return Res.renderJson(
+                userService.updategantiusername(id, users),
+                "Success Update Username",
+                HttpStatus.OK
+        );
     }
 
-    @PutMapping("/gantipassword{id}")
-    public User updategantipassword(@PathVariable Integer id, @RequestBody User users){
-        return userService.updategantipassword(id, users);
+    @PutMapping("/gantipassword/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public ResponseEntity<?> updategantipassword(@PathVariable Integer id, @RequestBody User users){
+        return Res.renderJson(
+                userService.updategantipassword(id, users),
+                "Success Update Password",
+                HttpStatus.OK
+        );
     }
 
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public void delete(@PathVariable Integer id){
         userService.delete(id);
     }

@@ -1,6 +1,5 @@
 package finalproject.gudanginkuy.a_model;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +21,5 @@ public class Vendor {
 
     private String address;
 
-    private Integer NoTelephone;
-
+    private String noTelephone;
 }

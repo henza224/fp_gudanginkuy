@@ -6,9 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Clob;
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,13 +17,13 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer barcode;
+    private String barcode;
 
     private String name;
 
     private Integer quantity;
 
-//    private Clob pictureUrl;
+    private String pictureUrl;
 
     @ManyToOne
     @JoinColumn(name = "vendor_id")

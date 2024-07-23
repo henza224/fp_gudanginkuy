@@ -1,0 +1,34 @@
+services:
+  mysql:
+    container_name: gudanginkuyserver
+    image: mysql
+    ports:
+      - 3306:3306
+    networks:
+      - gudanginkuy_network
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=gudanginkuy_db
+
+  gudanginkuy_app:
+    depends_on:
+      - mysql
+    container_name: gudanginkuy-api
+    image: gudanginkuy:1.0
+    ports:
+      - 8080:8080
+    networks:
+      - gudanginkuy_network
+    environment:
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - HOST=mysql
+      - DATABASE=gudanginkuy_db
+      - JWT_SECRET=veryLongAndSecureKey123456789lalalala
+      - JWT_EXPIRATION=12345678910
+      - CLOUD_NAME=dwjzbrme6
+      - CLOUD_API_KEY=978215654842344
+      - CLOUD_API_SECRET=jYrthuVrtldi9JnxyNNQLIKM6wI
+networks:
+  gudanginkuy_network:
+    name: gudanginkuy_network
